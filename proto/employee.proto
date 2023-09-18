@@ -1,0 +1,46 @@
+// protoc -I. --go_out=. proto/*.proto
+
+syntax = "proto3";
+
+package employee;
+
+option go_package = "./pb";
+
+import "proto/date.proto";
+
+message Employee {
+    int32 id = 1; // 1から始まる
+    string name = 2;
+    string email = 3;
+    Occupation occupation = 4;
+    repeated string phone_number = 5;
+    map<string, Company.Project> project = 6;
+    oneof profile {
+        string text = 7;
+        Video video = 8;
+    }
+    date.Date birthday = 9;
+}
+
+enum Occupation {
+   OCCUPATION_UNKNOWN = 0; // 0から始まる
+   ENGINEER = 1;
+   DESIGNER = 2;
+   MANAGER = 3;
+}
+
+message Company {
+    message Project{}
+}
+
+message Video {}
+
+/*
+    デフォルト値
+    - string: 空の文字列
+    - bytes: 空のbyte
+    - bool: false
+    - 整数型・浮動小数点数: 0
+    - 列挙型: タグ番号0の値
+    - repeated: 空のリスト
+*/
